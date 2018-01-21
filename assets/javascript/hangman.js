@@ -12,8 +12,8 @@ var wordList = {
 var word = ""; //needs to be from a function
 var wrongLetters = []; //array to hold letters guessed but not in word
 var correctLetters = []; // array to hold letters guessed and in word
-var score; // start score on 1
-var round; // start on word 1
+var score = 0; // start score on 1
+var round = 1; // start on word 1
 var availableRounds = 4; // total number of possible rounds (based on number of words)
 var availableGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
 
@@ -24,9 +24,9 @@ startGame();
 
 // reset all the variables and start the game
 function startGame() {
-	score = 0;
-	round = 1;
-	availableGuesses = 6;
+	// score = 0;
+	// round = 0;
+	// availableGuesses = 6;
 	word = wordList["word" + round][0];
 
 	// make the word display as underlines	
@@ -37,9 +37,10 @@ function startGame() {
 
 //TODO: Make this work
 // start a new game after playing, but maintain score
-function playAgain(score) {
+function playAgain(score, round) {
 	while (round <= availableRounds) {
-	availableGuesses = 6;
+		availableGuesses = 6;
+		startGame();
 	}
 }
 
@@ -59,10 +60,16 @@ function checkIfWinner() {
   if (correctLetters.indexOf("_") === -1) {
     console.log("you win!")
     score++;
+    round++;
+    // return;
+    // playAgain(score, round);
   } else if (availableGuesses === 0) {
     console.log("game over, mate");
+    round++;
+    // return;
+    // playAgain(score, round);
   }
-  // round++;
+
 }
 
 
