@@ -7,34 +7,38 @@ var wordList = {
 	word4: ["maple syrup"]
 };
 
-var lettersUsed = []; //array to hold letters guessed but not in word
+var wrongLetters = []; //array to hold letters guessed but not in word
 
-var lettersUsedInWord = [] // array to hold letters guessed and in word
+var correctLetters = [] // array to hold letters guessed and in word
 
-var score = 0; // start score on 1
+var score; // start score on 1
 
-var round = 1; // start on word 1
+var round; // start on word 1
 
 var totalRounds = 4; // total number of possible rounds (based on number of words)
 
-var totalPossibleGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
+var availableGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
 
-startBrandNewGame();
+startGame(wordList.word1[0]);
 
-function startBrandNewGame() {
-	if (document.onkeyup) {
+function startGame(word) {
 		score = 0;
 		round = 1;
-		totalPossibleGuesses = 6;
-		console.log("you pressed any key");
-		return;
+		availableGuesses = 6;
+		// console.log("you pressed any key");
+		// return;
+
+	// make word display as underlines	
+
+	for (var i = 0; i < word.length; i++) {
+    	correctLetters.push("_");
+  }
 	// if any key is pressed
 
 	//set score to 0
 	//choose a word
 	// chooseWord(start);
 	}
-}
 
 function playAgain(score) {
 	// start = previous game
@@ -42,7 +46,7 @@ function playAgain(score) {
 	while (round <= totalRounds) {
 
 
-	totalPossibleGuesses = 6;
+	availableGuesses = 6;
 	chooseWord(round);
 		}
 }
@@ -72,22 +76,29 @@ function checkLetterInWord(letter, word) {
    		addLetterToUsedList(letter);
 
 	}
-	// if (word.indexOf(letter) >= 0) {
-	// 	console.log("checkLetterInWord if2 ran, hooray");
-	// 	if (lettersUsedInWord.indexOf(letter) === -1) {
-	// 		lettersUsedInWord.push(letter);
-	// 		console.log(lettersUsedInWord);
-	// 	}
 
 	// if  letter is in word and not found in list of used letters in the word
 	// else if letter is in word  and in list, do nothing
-		if ((word.indexOf(letter) >= 0) && (lettersUsedInWord.indexOf(letter) === -1)) {
+	if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) === -1)) {
 		console.log("checkLetterInWord if2 ran, hooray");
-			lettersUsedInWord.push(letter);
-			console.log(lettersUsedInWord);
+			// correctLetters.push(letter);
+			// console.log(correctLetters);
+
+			for (var i = 0; i < word.length; i++) {
+      			if (word[i] === letter) {
+        		correctLetters[i] = letter;
+        		console.log(correctLetters);
+      		}
 			// needs to display it in the underlines
 
-		} else if ((word.indexOf(letter) >= 0) && (lettersUsedInWord.indexOf(letter) >=0)) {
+			// if correctLetters === word...
+			// 	score++;
+
+			// maybe splice (changes original array) to insert elements
+				// end game, ask to restart
+
+		} 
+	} else if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) >=0)) {
 			return;
 			// do nothing because letter guessed and alreday displayed
 }
@@ -102,13 +113,6 @@ function checkLetterInWord(letter, word) {
 		// need to increment score
 		// need to choose new word
 
-}
-
-function endRound() {
-	if (totalPossibleGuesses === 0) {
-		console.log("game over, you ran out of guesses")
-		//startBrandNewGame();
-	}
 }
 
 
@@ -140,19 +144,35 @@ function checkIfLetter(letter) {
 }
 
 // adds guessed letter to array of letters guessed if not already in array.
-// may want to rewrite to if (!lettersused...) to make the action on the if; could add return statement otherwise
+// may want to rewrite to if (!wrongLetters...) to make the action on the if; could add return statement otherwise
 //subtract a guess if a new letter that is not already in list of guessed letters not in the word
+// end game if miss the last guess and none left
 function addLetterToUsedList(letter) {
-	if (lettersUsed.includes(letter)) {
+	if (wrongLetters.includes(letter)) {
 		console.log("addLetterToUsedList if ran, already in list");
 		//return;
 	}
 	else {
-		lettersUsed.push(letter);
-		console.log("addLetterToUsedList else ran, added letter to list: " + lettersUsed);
-		totalPossibleGuesses--; 
-   		console.log("total guesses left: " + totalPossibleGuesses);
+		if (availableGuesses > 0) {
+
+		wrongLetters.push(letter);
+		console.log("addLetterToUsedList else ran, added letter to list: " + wrongLetters);
+		availableGuesses--; 
+   		console.log("total guesses left: " + availableGuesses);
+   		}
+   		// if (availableGuesses === 0) {
+   		// 	console.log("game over, mate");
+   		// 	//need to truly end game and ask to play again
+   		// }
 	}
+}
+
+function checkIfWinner() {
+  if (correctLetters.indexOf("_") === -1) {
+    console.log("you win!")
+  } else if (availableGuesses === 0) {
+    console.log("game over, mate");
+  }
 }
 
 // function iterateAlphabet()
