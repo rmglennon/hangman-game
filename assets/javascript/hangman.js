@@ -7,128 +7,75 @@ var wordList = {
 	word4: ["maple syrup"]
 };
 
+var word = wordList.word1[0]; //needs to be from a function
 var wrongLetters = []; //array to hold letters guessed but not in word
-
-var correctLetters = [] // array to hold letters guessed and in word
-
+var correctLetters = []; // array to hold letters guessed and in word
 var score; // start score on 1
-
 var round; // start on word 1
-
-var totalRounds = 4; // total number of possible rounds (based on number of words)
-
+var availableRounds = 4; // total number of possible rounds (based on number of words)
 var availableGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
 
-startGame(wordList.word1[0]);
 
-function startGame(word) {
-		score = 0;
-		round = 1;
-		availableGuesses = 6;
-		// console.log("you pressed any key");
-		// return;
+// start the game with a hard-coded word
+startGame();
+
+
+// reset all the variables
+function startGame() {
+	score = 0;
+	round = 1;
+	availableGuesses = 6;
 
 	// make word display as underlines	
-
 	for (var i = 0; i < word.length; i++) {
     	correctLetters.push("_");
   }
-	// if any key is pressed
-
-	//set score to 0
-	//choose a word
-	// chooseWord(start);
-	}
-
-function playAgain(score) {
-	// start = previous game
-
-	while (round <= totalRounds) {
-
-
-	availableGuesses = 6;
-	chooseWord(round);
-		}
 }
 
+
+// start a new game after playing, but maintain score
+function playAgain(score) {
+	while (round <= availableRounds) {
+	availableGuesses = 6;
+	chooseWord(round);
+	}
+}
+
+
+// TODO: Make this work
 // this is hard-coded, need to figure out how to get object array index
 // always the 0 index because it is the first/only word in array
 function chooseWord(round) {
-	 var word = wordList["word" + round][0];
-	 return word;
+	for (var i = 0; i < word.length; i++) {
+		word = wordList["word" + round][i];
+  }
+  return word;
 }
 
-// console.log(wordList.word2[0]);
 
-// check key - right now, hard-coded to word1[0] entry.
+// handle the key event and call the first function to test the key and test if winner
 document.onkeyup = function(event) {
-    var userInput = event.key;
-   	checkIfLetter(userInput);
-}
-
-// test if letter is in the current word
-// if it it not (-1), decrease guesses left
-// if it is and is not already in the list, add it.
-function checkLetterInWord(letter, word) {
-   	if (word.indexOf(letter) === -1) {
-   		console.log("checkLetterInWordif1 ran, not in word");
-
-   		addLetterToUsedList(letter);
-
-	}
-
-	// if  letter is in word and not found in list of used letters in the word
-	// else if letter is in word  and in list, do nothing
-	if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) === -1)) {
-		console.log("checkLetterInWord if2 ran, hooray");
-			// correctLetters.push(letter);
-			// console.log(correctLetters);
-
-			for (var i = 0; i < word.length; i++) {
-      			if (word[i] === letter) {
-        		correctLetters[i] = letter;
-        		console.log(correctLetters);
-      		}
-			// needs to display it in the underlines
-
-			// if correctLetters === word...
-			// 	score++;
-
-			// maybe splice (changes original array) to insert elements
-				// end game, ask to restart
-
-		} 
-	} else if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) >=0)) {
-			return;
-			// do nothing because letter guessed and alreday displayed
-}
-		// else	{
-		// round++;
-		// score++;
-		// console.log("round #: " + round + "score: " + score);
-		// }
-
-
-		// need to add && condition for letter in word entered twice
-		// need to increment score
-		// need to choose new word
-
+  var userInput = event.key;
+  checkIfLetter(userInput);
+  checkIfWinner();
 }
 
 
-//  var checkLetter = wordList.word1[0];
+// test if the game is over through a win (all _ replaced with letters) and increase score 
+// or a lost when runnning out of turns
+// increase the round number to start again
+function checkIfWinner() {
+  if (correctLetters.indexOf("_") === -1) {
+    console.log("you win!")
+    score++;
+  } else if (availableGuesses === 0) {
+    console.log("game over, mate");
+  }
+  round++;
+}
 
-//    	if (checkLetter.indexOf(userInput) === -1) {
-//    		// addLetterToUsedList(userInput);
 
-
-// 	}
-// 	if (checkLetter.indexOf(userInput) >= 0) {
-// 		console.log("hooray");
-// 	}
-// }
-
-// test if key pressed is an English letter, lower or uppercase
+// test if key pressed is an English letter in lower or uppercase, and convert to lowercase
 function checkIfLetter(letter) {
 	var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	if (alphabet.indexOf(letter) === -1) {
@@ -138,52 +85,46 @@ function checkIfLetter(letter) {
 	else {
 		console.log("checkIfLetter else ran")
 		letter = letter.toLowerCase();
-		// need to figure out how to pass word if function needs it
-		checkLetterInWord(letter, (wordList.word1[0]));
+		checkLetterInWord(letter);
 	}
 }
 
-// adds guessed letter to array of letters guessed if not already in array.
-// may want to rewrite to if (!wrongLetters...) to make the action on the if; could add return statement otherwise
-//subtract a guess if a new letter that is not already in list of guessed letters not in the word
-// end game if miss the last guess and none left
-function addLetterToUsedList(letter) {
-	if (wrongLetters.includes(letter)) {
-		console.log("addLetterToUsedList if ran, already in list");
-		//return;
-	}
-	else {
-		if (availableGuesses > 0) {
 
+// test if letter is in the current word
+function checkLetterInWord(letter) {
+	// if it is an incorrect letter (-1), call function to add it to used list
+  if (word.indexOf(letter) === -1) {
+   	console.log("checkLetterInWordif1 ran, not in word");
+   	addLetterToUsedList(letter);
+	}
+
+	// if letter guessed is in word and not already in list of correct letters,
+	// update correct letters with actual letters to replace the _
+	// otherwise, do nothing because letter guessed is already displayed
+	if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) === -1)) {
+		console.log("checkLetterInWord if2 ran, hooray");
+		for (var i = 0; i < word.length; i++) {
+    	if (word[i] === letter) {
+      	correctLetters[i] = letter;
+      	console.log(correctLetters);
+    	}
+		} 
+	} else if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) >=0)) {
+			return;
+	}
+}
+
+
+// add guessed letter to array of wrong letters if not already in it, and subtract a guess.
+function addLetterToUsedList(letter) {
+	if (wrongLetters.indexOf(letter) === -1) {
 		wrongLetters.push(letter);
 		console.log("addLetterToUsedList else ran, added letter to list: " + wrongLetters);
 		availableGuesses--; 
-   		console.log("total guesses left: " + availableGuesses);
-   		}
-   		// if (availableGuesses === 0) {
-   		// 	console.log("game over, mate");
-   		// 	//need to truly end game and ask to play again
-   		// }
+   	console.log("total guesses left: " + availableGuesses);
+  }
+  else {
+		console.log("addLetterToUsedList if ran, already in list");
+		return;
 	}
 }
-
-function checkIfWinner() {
-  if (correctLetters.indexOf("_") === -1) {
-    console.log("you win!")
-  } else if (availableGuesses === 0) {
-    console.log("game over, mate");
-  }
-}
-
-// function iterateAlphabet()
-// 	{
-// 	   var alphabet = "abcdefghijklmnopqrstuvwxyz";
-// 	   for(var i = 0; i < alphabet.length; i++)
-// 	   {
-// 	      var nextChar = alphabet.charAt(i);
-// 	      alert(nextChar);
-// 	   }
-// 	}
-
-
-// iterateAlphabet();
