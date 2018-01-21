@@ -7,7 +7,9 @@ var wordList = {
 	word4: ["maple syrup"]
 };
 
-var word = wordList.word1[0]; //needs to be from a function
+// var word = wordList.word1[0]; //needs to be from a function
+
+var word = ""; //needs to be from a function
 var wrongLetters = []; //array to hold letters guessed but not in word
 var correctLetters = []; // array to hold letters guessed and in word
 var score; // start score on 1
@@ -16,40 +18,29 @@ var availableRounds = 4; // total number of possible rounds (based on number of 
 var availableGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
 
 
-// start the game with a hard-coded word
+// start the game
 startGame();
 
 
-// reset all the variables
+// reset all the variables and start the game
 function startGame() {
 	score = 0;
 	round = 1;
 	availableGuesses = 6;
+	word = wordList["word" + round][0];
 
-	// make word display as underlines	
+	// make the word display as underlines	
 	for (var i = 0; i < word.length; i++) {
     	correctLetters.push("_");
-  }
+	}
 }
 
-
+//TODO: Make this work
 // start a new game after playing, but maintain score
 function playAgain(score) {
 	while (round <= availableRounds) {
 	availableGuesses = 6;
-	chooseWord(round);
 	}
-}
-
-
-// TODO: Make this work
-// this is hard-coded, need to figure out how to get object array index
-// always the 0 index because it is the first/only word in array
-function chooseWord(round) {
-	for (var i = 0; i < word.length; i++) {
-		word = wordList["word" + round][i];
-  }
-  return word;
 }
 
 
@@ -71,7 +62,7 @@ function checkIfWinner() {
   } else if (availableGuesses === 0) {
     console.log("game over, mate");
   }
-  round++;
+  // round++;
 }
 
 
