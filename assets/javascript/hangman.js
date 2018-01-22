@@ -4,10 +4,8 @@ var wordList = {
 	word1: ["butternut"],
 	word2: ["vegetarian"],
 	word3: ["kabocha"],
-	word4: ["maple syrup"]
+	word4: ["maplesyrup"]
 };
-
-// var word = wordList.word1[0]; //needs to be from a function
 
 var word = ""; //needs to be from a function
 var wrongLetters = []; //array to hold letters guessed but not in word
@@ -17,46 +15,51 @@ var round = 1; // start on word 1
 var availableRounds = 4; // total number of possible rounds (based on number of words)
 var availableGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
 
+var removeCommas = document.querySelector(.remove-commas);
+
+
 
 // start the game
 startGame();
 
 
-// reset all the variables and start the game
+// initiate all the variables, user interface text, and start the game (if there are available words remaining)
 function startGame() {
+	if (round <= availableRounds) {
 
-	word = wordList["word" + round][0];
+		word = wordList["word" + round][0];
 
-	// make the word display as underlines	
-	for (var i = 0; i < word.length; i++) {
-    	correctLetters.push("_");
+		// make the word display as underlines	
+		for (var i = 0; i < word.length; i++) {
+	    	correctLetters.push("_");
+		}
+
+		document.querySelector("#word-area").textContent = correctLetters; //TODO: remove the commas
+		document.querySelector("#wrong-letters").textContent = wrongLetters;
+		document.querySelector("#wins").textContent = wins;
+	  document.querySelector("#round").textContent = round;
+	  document.querySelector("#available-guesses").textContent = availableGuesses;
 	}
-	document.querySelector("#word-area").textContent = correctLetters; //TODO: remove the commas
-	document.querySelector("#wins").textContent = wins;
-  document.querySelector("#round").textContent = round;
-  document.querySelector("#available-guesses").textContent = availableGuesses;
+	else {
+		alert("do you want to play again?");
+	}
 }
 
+
+// reset the variables and UI text
 function resetGame() {
 	word = "";
-	document.querySelector("#word-area").textContent = "";
 	wrongLetters = [];
 	correctLetters = [];
 	availableGuesses = 6
+	document.querySelector("#word-area").textContent = "";
+	document.querySelector("#wrong-letters").textContent = "";
   startGame();
 }
 
-//TODO: Make this work
-// start a new game after playing, but maintain score
-function playAgain(wins, round) {
-	while (round <= availableRounds) {
-		availableGuesses = 6;
-		startGame();
-	}
-}
 
-
-// handle the key event and call the first function to test the key and test if winner
+// handle the key event
+// call the first function to test the key and test if winner
 document.onkeyup = function(event) {
   var userInput = event.key;
   checkIfLetter(userInput);
