@@ -15,7 +15,7 @@ var round = 1; // start on word 1
 var availableRounds = 4; // total number of possible rounds (based on number of words)
 var availableGuesses = 6; // total number of possible guesses (6 based on drawing actual hangman)
 
-var removeCommas = document.querySelector(.remove-commas);
+// var removeCommas = document.querySelector(.remove-commas);
 
 
 
@@ -33,9 +33,9 @@ function startGame() {
 		for (var i = 0; i < word.length; i++) {
 	    	correctLetters.push("_");
 		}
-
-		document.querySelector("#word-area").textContent = correctLetters; //TODO: remove the commas
-		document.querySelector("#wrong-letters").textContent = wrongLetters;
+		// use .join to remove commas in array
+		document.querySelector("#word-area").textContent = correctLetters.join(" ");
+		document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
 		document.querySelector("#wins").textContent = wins;
 	  document.querySelector("#round").textContent = round;
 	  document.querySelector("#available-guesses").textContent = availableGuesses;
@@ -116,7 +116,8 @@ function checkLetterInWord(letter) {
     	if (word[i] === letter) {
       	correctLetters[i] = letter;
       	console.log(correctLetters);
-      	document.querySelector("#word-area").textContent = correctLetters;
+      	// update html page with correct letters, but use .join to remove commas in array
+      	document.querySelector("#word-area").textContent = correctLetters.join(" ");
     	}
 		} 
 	} else if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) >=0)) {
@@ -130,7 +131,9 @@ function addLetterToUsedList(letter) {
 	if (wrongLetters.indexOf(letter) === -1) {
 		wrongLetters.push(letter);
 		console.log("addLetterToUsedList else ran, added letter to list: " + wrongLetters);
-		document.querySelector("#wrong-letters").textContent = wrongLetters;
+
+		// update html page with wrong letters, but use .join to remove commas in array
+		document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
 		availableGuesses--; 
 		document.querySelector("#available-guesses").textContent = availableGuesses;
    	console.log("total guesses left: " + availableGuesses);
