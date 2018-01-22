@@ -16,8 +16,8 @@
 			<div class="col-md-4">
 				<h2>Let's play Hangman</h2>
 				<p>Press any key to get started!</p>
-					<div>Score
-			<p id="score"></p>
+					<div>Wins
+			<p id="wins"></p>
 		</div>
 		<br>
 		<div>Round
@@ -25,21 +25,16 @@
 		</div>
 		</div>
 			<div class="col-md-8" id="game-area">
-				<h2>Your word</h2>
+				<h2>Current word</h2>
 				<div id="word-area">
 				</div>
-					<br>
-				<div>
-					<p>Misses</p>
-
-			<div id="wrong-letters">
-			</div>
-
-		</div>
-		<div>
-			<p>Guesses left</p>
-			<div id="available-guesses">
-			</div>
+				<br>
+				<div>Letters already guessed
+					<p id="wrong-letters"></p>
+				</div>
+				<div>Number of guesses remaining
+					<p id="available-guesses"></p>
+				</div>
 		</div>
 </div>
 </div>
