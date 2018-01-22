@@ -33,6 +33,10 @@ function startGame() {
 	for (var i = 0; i < word.length; i++) {
     	correctLetters.push("_");
 	}
+	document.querySelector("#word-area").textContent = correctLetters; //TODO: remove the commas
+	document.querySelector("#score").textContent = score;
+  document.querySelector("#round").textContent = round;
+  document.querySelector("#available-guesses").textContent = availableGuesses;
 }
 
 //TODO: Make this work
@@ -61,6 +65,8 @@ function checkIfWinner() {
     console.log("you win!")
     score++;
     round++;
+    // document.querySelector("#score").textContent = score;
+    // document.querySelector("#round").textContent = round;
     // return;
     // playAgain(score, round);
   } else if (availableGuesses === 0) {
@@ -105,6 +111,7 @@ function checkLetterInWord(letter) {
     	if (word[i] === letter) {
       	correctLetters[i] = letter;
       	console.log(correctLetters);
+      	document.querySelector("#word-area").textContent = correctLetters;
     	}
 		} 
 	} else if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) >=0)) {
@@ -118,7 +125,9 @@ function addLetterToUsedList(letter) {
 	if (wrongLetters.indexOf(letter) === -1) {
 		wrongLetters.push(letter);
 		console.log("addLetterToUsedList else ran, added letter to list: " + wrongLetters);
+		document.querySelector("#wrong-letters").textContent = wrongLetters;
 		availableGuesses--; 
+		document.querySelector("#available-guesses").textContent = availableGuesses;
    	console.log("total guesses left: " + availableGuesses);
   }
   else {
