@@ -13,21 +13,19 @@ var wordList = {
 	word10: ["avocados"]
 };
 
-var word = ""; //needs to be from a function
+var word = ""; // word to guess
 var wrongLetters = []; //array to hold letters guessed but not in word
 var correctLetters = []; // array to hold letters guessed and in word
 var wins = 0; // start score on 1
 var round = 1; // start on word 1
-var availableRounds = 10; // total number of possible rounds (based on number of words)
+var availableRounds = 10; // total number of possible rounds
 var availableGuesses = 6; // total number of possible guesses
-document.querySelector("#wrong-letters").textContent = "_";
-		document.querySelector("#word-area").textContent = correctLetters.join(" ");
+		// document.querySelector("#word-area").textContent = correctLetters.join(" ");
 		// document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
 		document.querySelector("#wins").textContent = wins;
 	  document.querySelector("#round").textContent = round;
 	  document.querySelector("#available-guesses").textContent = availableGuesses;
 
-// startGame();
 
 // start the game
 // document.onkeyup = function(event) {
@@ -37,7 +35,9 @@ document.querySelector("#wrong-letters").textContent = "_";
 //   }
 // }
 
-// initiate all the variables, user interface text, and start the game (if there are available words remaining)
+chooseWord();
+
+// initiate all the variables, user interface text, choose a word, and start the game (if there are available words remaining)
 function startGame() {
 	if (round <= availableRounds) {
 
@@ -48,16 +48,33 @@ function startGame() {
 	    	correctLetters.push("_");
 		}
 		// use .join to remove commas in array
-		// document.querySelector("#word-area").textContent = correctLetters.join(" ");
-		// // document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
-		// document.querySelector("#wins").textContent = wins;
-	 //  document.querySelector("#round").textContent = round;
-	 //  document.querySelector("#available-guesses").textContent = availableGuesses;
+		document.querySelector("#word-area").textContent = correctLetters.join(" ");
+		document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
+		document.querySelector("#wins").textContent = wins;
+	  document.querySelector("#round").textContent = round;
+	  document.querySelector("#available-guesses").textContent = availableGuesses;
 	}
 	// reset the game if there are no more words
-	else {
-		alert("do you want to play again?");
-		// resetGame();
+	// else {
+	// 	var endGame = confirm("Do you want to play again?");
+	// 	if (endGame) {
+	// 		resetGame();
+	// 	}
+	// }
+}
+
+function chooseWord() {
+	if (round <= availableRounds) {
+
+		word = wordList["word" + round][0];
+
+		// make the word display as underlines	
+		for (var i = 0; i < word.length; i++) {
+	    	correctLetters.push("_");
+		}
+		// use .join to remove commas in array
+		document.querySelector("#word-area").textContent = correctLetters.join(" ");
+		// document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
 	}
 }
 
@@ -70,7 +87,7 @@ function resetGame() {
 	availableGuesses = 6;
 	document.querySelector("#word-area").textContent = "";
 	document.querySelector("#wrong-letters").textContent = "";
-  startGame();
+  // startGame();
 }
 
 
@@ -79,12 +96,11 @@ function resetGame() {
 document.onkeyup = function(event) {
   var userInput = event.key;
   checkIfLetter(userInput);
-  checkIfWinner();
 
 // listen for Esc key to reset the game
   if (userInput === "Escape") {
   	console.log("you quit");
-  	resetGame();
+  	// resetGame();
   }
 }
 
@@ -94,16 +110,18 @@ document.onkeyup = function(event) {
 // increase the round number to start again
 function checkIfWinner() {
   if (correctLetters.indexOf("_") === -1) {
+  	// document.querySelector("#word-area").textContent = word;
     console.log("you win!")
     document.querySelector("#round-status").textContent = "You won that round!";
+    document.querySelector("#word-area").textContent = word;
     wins++;
     round++;
-    resetGame();
   } else if (availableGuesses === 0) {
     console.log("game over, mate");
     document.querySelector("#round-status").textContent = "You lost that round!";
+    document.querySelector("#word-area").textContent = word;
     round++;
-    resetGame();
+    // resetGame();
   }
 }
 
@@ -147,6 +165,7 @@ function checkLetterInWord(letter) {
 	} else if ((word.indexOf(letter) >= 0) && (correctLetters.indexOf(letter) >=0)) {
 			return;
 	}
+	checkIfWinner();
 }
 
 
@@ -166,4 +185,5 @@ function addLetterToUsedList(letter) {
 		console.log("addLetterToUsedList if ran, already in list");
 		return;
 	}
+	checkIfWinner();
 }
