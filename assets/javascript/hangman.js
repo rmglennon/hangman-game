@@ -1,16 +1,16 @@
 // create a list of words
 
 var wordList = {
-	word1: ["nectarines"],
-	word2: ["tomatoes"],
-	word3: ["pomegranates"],
+	word1: ["watermelon"],
+	word2: ["cauliflower"],
+	word3: ["pumpkin"],
 	word4: ["spinach"],
-	word5: ["arugula"],
-	word6: ["tangerines"],
+	word5: ["lettuce"],
+	word6: ["celery"],
 	word7: ["broccoli"],
 	word8: ["strawberries"],
-	word9: ["pumpkins"],
-	word10: ["avocados"]
+	word9: ["mushrooms"],
+	word10: ["avocado"]
 };
 
 var word = ""; // word to guess
@@ -20,11 +20,9 @@ var wins = 0; // start score on 1
 var round = 1; // start on word 1
 var availableRounds = 10; // total number of possible rounds
 var availableGuesses = 6; // total number of possible guesses
-		// document.querySelector("#word-area").textContent = correctLetters.join(" ");
-		// document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
-		document.querySelector("#wins").textContent = wins;
-	  document.querySelector("#round").textContent = round;
-	  document.querySelector("#available-guesses").textContent = availableGuesses;
+document.querySelector("#wins").textContent = wins;
+document.querySelector("#round").textContent = round;
+document.querySelector("#available-guesses").textContent = availableGuesses;
 
 
 // start the game
@@ -35,74 +33,102 @@ var availableGuesses = 6; // total number of possible guesses
 //   }
 // }
 
-chooseWord();
+// chooseWord();
+startGame(round);
+
+// handle the key event
+// call the first function to test the key and test if winner
+// document.onkeyup = function(event) {
+//   var userInput = event.key;
+//   checkIfLetter(userInput);
+
+
+// // listen for Esc key to reset the game
+//   if (userInput === "Escape") {
+//   	console.log("you quit");
+//   	// resetGame();
+//   }
+// }
 
 // initiate all the variables, user interface text, choose a word, and start the game (if there are available words remaining)
-function startGame() {
-	if (round <= availableRounds) {
+	function startGame() {
+		document.onkeyup = function(event) {
+	  	var userInput = event.key;
+	  	checkIfLetter(userInput);
 
-		word = wordList["word" + round][0];
 
-		// make the word display as underlines	
-		for (var i = 0; i < word.length; i++) {
-	    	correctLetters.push("_");
+	// listen for Esc key to reset the game
+	  if (userInput === "Escape") {
+	  	console.log("you quit");
+	  	alert("Starting a new game.")
+	  	resetGame();
+	  }
+	}	
+
+		wrongLetters = [];
+		correctLetters = [];
+		availableGuesses = 6;
+
+
+
+
+
+		if (round <= availableRounds) {
+
+			word = wordList["word" + round][0];
+
+			// make the word display as underlines	
+			for (var i = 0; i < word.length; i++) {
+		    	correctLetters.push("_");
+			}
+			// use .join to remove commas in array
+			document.querySelector("#word-area").textContent = correctLetters.join(" ");
+			document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
+			document.querySelector("#wins").textContent = wins;
+		  	document.querySelector("#round").textContent = round;
+		  	document.querySelector("#available-guesses").textContent = availableGuesses;
 		}
-		// use .join to remove commas in array
-		document.querySelector("#word-area").textContent = correctLetters.join(" ");
-		document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
-		document.querySelector("#wins").textContent = wins;
-	  document.querySelector("#round").textContent = round;
-	  document.querySelector("#available-guesses").textContent = availableGuesses;
+		// reset the game if there are no more words
+		// else {
+		// 	var endGame = confirm("Do you want to play again?");
+		// 	if (endGame) {
+		// 		resetGame();
+		// 	}
+		// }
 	}
-	// reset the game if there are no more words
-	// else {
-	// 	var endGame = confirm("Do you want to play again?");
-	// 	if (endGame) {
-	// 		resetGame();
-	// 	}
-	// }
-}
 
-function chooseWord() {
-	if (round <= availableRounds) {
+// function chooseWord() {
+// 	if (round <= availableRounds) {
 
-		word = wordList["word" + round][0];
+// 		word = wordList["word" + round][0];
 
-		// make the word display as underlines	
-		for (var i = 0; i < word.length; i++) {
-	    	correctLetters.push("_");
-		}
-		// use .join to remove commas in array
-		document.querySelector("#word-area").textContent = correctLetters.join(" ");
-		// document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
-	}
-}
+// 		// make the word display as underlines	
+// 		for (var i = 0; i < word.length; i++) {
+// 	    	correctLetters.push("_");
+// 		}
+// 		// use .join to remove commas in array
+// 		document.querySelector("#word-area").textContent = correctLetters.join(" ");
+// 		// document.querySelector("#wrong-letters").textContent = wrongLetters.join(" ");
+// 	}
+// }
 
 
+// TODO this is not working 
 // reset the variables and UI text
 function resetGame() {
-	word = "";
+    round = 1;
+    word = "";
+    wins = 0;
 	wrongLetters = [];
 	correctLetters = [];
 	availableGuesses = 6;
 	document.querySelector("#word-area").textContent = "";
 	document.querySelector("#wrong-letters").textContent = "";
-  // startGame();
+  startGame();
 }
 
 
-// handle the key event
-// call the first function to test the key and test if winner
-document.onkeyup = function(event) {
-  var userInput = event.key;
-  checkIfLetter(userInput);
 
-// listen for Esc key to reset the game
-  if (userInput === "Escape") {
-  	console.log("you quit");
-  	// resetGame();
-  }
-}
 
 
 // test if the game is over through a win (all _ replaced with letters) and increase score 
@@ -110,18 +136,34 @@ document.onkeyup = function(event) {
 // increase the round number to start again
 function checkIfWinner() {
   if (correctLetters.indexOf("_") === -1) {
-  	// document.querySelector("#word-area").textContent = word;
     console.log("you win!")
-    document.querySelector("#round-status").textContent = "You won that round!";
-    document.querySelector("#word-area").textContent = word;
+    document.querySelector("#round-status").textContent = "You won that round with " + word + "!";
+ 	document.querySelector("#word-area").textContent = word;
     wins++;
     round++;
+
+    if (round > 10) {
+    	alert("Let's play again!");
+    	resetGame();
+    }
+    else {
+        startGame();	
+    }
+
   } else if (availableGuesses === 0) {
     console.log("game over, mate");
-    document.querySelector("#round-status").textContent = "You lost that round!";
+    document.querySelector("#round-status").textContent = "You lost that round with "+ word +
+    "!";
     document.querySelector("#word-area").textContent = word;
     round++;
-    // resetGame();
+
+    if (round > 10) {
+    	alert("Let's play again!");
+    	resetGame();
+    }
+    else {
+        startGame();	
+    }
   }
 }
 
