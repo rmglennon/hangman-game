@@ -8,52 +8,49 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 </head>
+
 <body>
-	<div class="jumbotron">
-			<h1>Hangman at the farmer's market</h1>
-		</div>
-	<div class="container">
-<!-- 		<div class="jumbotron">
-			<h1>Hangman at the farmer's market</h1>
-		</div> -->
-		<div class="row">
-			<div class="col-md-5">
-				<h2>The Game of Hangman</h2>
-				<p id="instructions">Press any key to get started! Guess the letters in words representing types of produce you can find at a farmer's market. Finish the word before you run out of guesses! Press Esc to restart the game.</p>
-				<div>
-					<h3>Your wins</h3>
-					<p class="game-text" id="wins"></p>
-				</div>
-		<br>
+<div class="jumbotron">
+		<h1>Hangman at the farmer's market</h1>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-5">
+			<h2>The Game of Hangman</h2>
+			<p id="instructions">Press any key to get started! Guess the letters in words representing types of produce you can find at a farmer's market. Finish the word before you run out of guesses! Press Esc to restart the game.</p>
 			<div>
-				<h3>Round</h3>
-				<p class="game-text" id="round"></p>
+				<h3>Your wins</h3>
+				<p class="game-text" id="wins"></p>
+			</div>
+		<br>
+		<div>
+			<h3>Round</h3>
+			<p class="game-text" id="round"></p>
+		</div>
+	</div>
+	<div class="offset-md-1"></div>
+		<div class="col-md-6" id="game-area">
+			<h2>Current word</h2>
+			<div id="word-area">
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-12">
+				<h3>Letters already guessed</h3>
+				<p class="game-text" id="wrong-letters"></p>
+			</div>
+			<div class="col-md-12">
+				<h3>Number of guesses remaining</h3>
+				<p class="game-text" id="available-guesses"></p>
+			</div>
+			<br>
+			<div class="col-md-12">
+				<h3>Round status</h3>
+				<p class="game-text" id="round-status"></p>
+			</div>
 			</div>
 		</div>
-		<div class="offset-md-1"></div>
-			<div class="col-md-6" id="game-area">
-				<h2>Current word</h2>
-				<div id="word-area">
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-md-12">
-					<h3>Letters already guessed</h3>
-					<p class="game-text" id="wrong-letters"></p>
-				</div>
-				<div class="col-md-12">
-					<h3>Number of guesses remaining</h3>
-					<p class="game-text" id="available-guesses"></p>
-				</div>
-				<br>
-				<div class="col-md-12">
-					<h3>Round status</h3>
-					<p class="game-text" id="round-status"></p>
-				</div>
-				</div>
-		</div>
-</div>
-</div>
+	</div>
 </div>
 
 <script type="text/javascript" src="assets/javascript/hangman.js"></script>
