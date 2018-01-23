@@ -1,7 +1,4 @@
 body {
-/*	background-image: url("../images/pumpkins.jpg");
-	background-size: 100% auto;
-	background-repeat: no-repeat;*/
 	font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
 	background-color: #D1DEA0; 
 }
@@ -33,10 +30,6 @@ p {
 	color: #52660B;
 	min-height: 42px;
 }
-
-/*#instructions {
-	text-align: justify; 
-}*/
 
 h2 {
 	font-size: 36px;
